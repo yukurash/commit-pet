@@ -40,43 +40,142 @@ Each mood looks clearly different, so you can read your pet's state at a glance:
 
 ## Setup
 
-You need a **profile repository** — a repo named exactly like your username (for example
-`yukurash/yukurash`). [How to create one.](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme)
+**Before you start**
 
-**Step 0 — Allow Actions to open pull requests.**
-In your profile repo, go to **Settings → Actions → General → Workflow permissions** and enable
-**"Allow GitHub Actions to create and approve pull requests"**. Without this, the run fails with
-*"GitHub Actions is not permitted to create or approve pull requests."*
+1. Create a **profile repository** — a repo named exactly like your username, e.g. `your-name/your-name`. [How to create one.](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme)
+2. In that repo, open **Settings → Actions → General → Workflow permissions** and turn on **"Allow GitHub Actions to create and approve pull requests"**. Skipping this makes the run fail with *"GitHub Actions is not permitted to create or approve pull requests."*
 
-**Step 1 — Add the workflow.**
-Copy [examples/commit-pet.yml](examples/commit-pet.yml) into your profile repo at
-`.github/workflows/commit-pet.yml`, then adjust `species`, `name`, and `theme` to taste. That one
-file is all you add — the Action itself lives here and is pulled in automatically.
+> The commands below use the [GitHub CLI](https://cli.github.com/) (`gh`). Run `gh auth login` once first, and replace `your-name` with your GitHub username.
 
-**Step 2 — Run it once.**
-Open the **Actions** tab in your repo, select **Commit Pet**, and click **Run workflow**. It
-renders your pet and opens a pull request. Merge that PR.
+### 1. Add the workflow
 
-After merging, the image exists in your repo at the path you set in `output` (default
-`commit-pet.svg`).
+Clone your profile repo and create `.github/workflows/commit-pet.yml`. Tweak `species`, `name`, and `theme` to taste — every option is listed under [Customization options](#customization-options).
 
-**Step 3 — Show the pet in your README.**
-Add one line to your profile `README.md`, pointing at that same path:
+<details open><summary><b>Windows (PowerShell)</b></summary>
 
-```markdown
-![Commit Pet](commit-pet.svg)
+```powershell
+gh repo clone your-name/your-name
+cd your-name
+New-Item -ItemType Directory -Force -Path .github/workflows | Out-Null
+@'
+name: Commit Pet
+on:
+  schedule:
+    - cron: "0 21 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+  models: read
+jobs:
+  pet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: yukurash/commit-pet@v1
+        with:
+          species: slime          # slime | cat | ghost
+          name: Puni              # your pet's name
+          output: commit-pet.svg
+          theme: en               # en | jp
+'@ | Set-Content .github/workflows/commit-pet.yml -Encoding utf8
+git add .github/workflows/commit-pet.yml
+git commit -m "Add Commit Pet workflow"
+git push
 ```
 
-From then on, the daily schedule keeps your pet up to date through pull requests.
+</details>
 
-## Inputs
+<details><summary><b>macOS / Linux (bash)</b></summary>
 
-| Input | Default | Description |
+```bash
+gh repo clone your-name/your-name
+cd your-name
+mkdir -p .github/workflows
+cat > .github/workflows/commit-pet.yml <<'YAML'
+name: Commit Pet
+on:
+  schedule:
+    - cron: "0 21 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+  models: read
+jobs:
+  pet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: yukurash/commit-pet@v1
+        with:
+          species: slime          # slime | cat | ghost
+          name: Puni              # your pet's name
+          output: commit-pet.svg
+          theme: en               # en | jp
+YAML
+git add .github/workflows/commit-pet.yml
+git commit -m "Add Commit Pet workflow"
+git push
+```
+
+</details>
+
+✅ **OK when** `git push` succeeds and the workflow **Commit Pet** appears under your repo's **Actions** tab.
+
+### 2. Run it once
+
+Trigger the workflow, wait for it to finish, then merge the pull request it opens:
+
+```bash
+gh workflow run commit-pet.yml
+gh run watch                                   # wait until the run finishes
+gh pr list                                     # note the "Commit Pet update" PR number
+gh pr merge <number> --squash --delete-branch  # merge it
+```
+
+Prefer clicking? Open the **Actions** tab → **Commit Pet** → **Run workflow**, then merge the PR from the **Pull requests** tab.
+
+✅ **OK when** the PR is merged and `commit-pet.svg` (your `output` path) exists in the repo.
+
+### 3. Show the pet in your README
+
+Pull the merged image, append one line to your profile `README.md`, and push:
+
+<details open><summary><b>Windows (PowerShell)</b></summary>
+
+```powershell
+git pull
+Add-Content README.md "`n![Commit Pet](commit-pet.svg)"
+git commit -am "Show Commit Pet on my profile"
+git push
+```
+
+</details>
+
+<details><summary><b>macOS / Linux (bash)</b></summary>
+
+```bash
+git pull
+printf '\n![Commit Pet](commit-pet.svg)\n' >> README.md
+git commit -am "Show Commit Pet on my profile"
+git push
+```
+
+</details>
+
+✅ **OK when** you open `https://github.com/your-name` and the pet is at the bottom of your profile. From here the daily schedule keeps it updated through pull requests.
+
+## Customization options
+
+Set these under `with:` in the workflow (Step 1):
+
+| Option | Default | What it does |
 |---|---|---|
-| `species` | `slime` | `slime` \| `cat` \| `ghost`. |
+| `species` | `slime` | Pick the creature: `slime` \| `cat` \| `ghost`. |
 | `name` | — | Name shown on the card. |
+| `theme` | `en` | Card language: `en` \| `jp`. |
 | `output` | `commit-pet.svg` | Where the SVG is written. Use the same path in your README. |
-| `theme` | `en` | `en` \| `jp`. |
 | `username` | repo owner | Whose contributions to read. |
 | `pr_branch` | `commit-pet/update` | Branch used for the update PR. |
 | `auto_merge` | `false` | `true` to auto-merge (your repo must allow auto-merge). |
