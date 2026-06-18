@@ -43,6 +43,11 @@ Each mood looks clearly different, so you can read your pet's state at a glance:
 You need a **profile repository** — a repo named exactly like your username (for example
 `yukurash/yukurash`). [How to create one.](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme)
 
+**Step 0 — Allow Actions to open pull requests.**
+In your profile repo, go to **Settings → Actions → General → Workflow permissions** and enable
+**"Allow GitHub Actions to create and approve pull requests"**. Without this, the run fails with
+*"GitHub Actions is not permitted to create or approve pull requests."*
+
 **Step 1 — Add the workflow.**
 Copy [examples/commit-pet.yml](examples/commit-pet.yml) into your profile repo at
 `.github/workflows/commit-pet.yml`, then adjust `species`, `name`, and `theme` to taste. That one
