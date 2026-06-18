@@ -23,9 +23,9 @@ inputs:
     required: false
     default: 'commit-pet.svg'
   theme:
-    description: 'Card language/theme: jp | en.'
+    description: 'Card language/theme: en | jp.'
     required: false
-    default: 'jp'
+    default: 'en'
   token:
     description: 'Token with contents:write, pull-requests:write and models:read.'
     required: false
