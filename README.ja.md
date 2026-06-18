@@ -39,42 +39,142 @@ Commit Pet は**あなた自身のリポジトリの GitHub Actions** で動き�
 
 ## 使い方
 
-まず**プロフィールリポジトリ**（ユーザー名と同じ名前のリポジトリ。例: `yukurash/yukurash`）を用意します。
-[作り方はこちら。](https://docs.github.com/ja/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme)
+**はじめる前に**
 
-**ステップ0 — Actions に PR 作成を許可する。**
-プロフィールリポジトリの **Settings → Actions → General → Workflow permissions** を開き、
-**「Allow GitHub Actions to create and approve pull requests」** を ON にします。これを有効にしないと、
-実行時に *「GitHub Actions is not permitted to create or approve pull requests.」* で失敗します。
+1. **プロフィールリポジトリ**（ユーザー名と同じ名前のリポジトリ。例: `your-name/your-name`）を用意します。[作り方はこちら。](https://docs.github.com/ja/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme)
+2. そのリポジトリの **Settings → Actions → General → Workflow permissions** を開き、**「Allow GitHub Actions to create and approve pull requests」** を ON にします。これを忘れると、実行時に *「GitHub Actions is not permitted to create or approve pull requests.」* で失敗します。
 
-**ステップ1 — ワークフローを置く。**
-[examples/commit-pet.yml](examples/commit-pet.yml) をプロフィールリポジトリの
-`.github/workflows/commit-pet.yml` にコピーし、`species`・`name`・`theme` をお好みで変えます。
-追加するのはこのファイル1つだけで、本体はこのリポジトリから自動で読み込まれます。
+> 以下のコマンドは [GitHub CLI](https://cli.github.com/)（`gh`）を使います。先に `gh auth login` を一度実行し、`your-name` は自分のユーザー名に置き換えてください。
 
-**ステップ2 — 一度だけ実行する。**
-リポジトリの **Actions** タブを開き、**Commit Pet** を選んで **Run workflow** を押します。
-ペットが描画され、プルリクが作られます。それをマージします。
+### 1. ワークフローを置く
 
-マージすると、`output` で指定したパス（既定は `commit-pet.svg`）に画像ファイルが置かれます。
+プロフィールリポジトリを clone して `.github/workflows/commit-pet.yml` を作ります。`species`・`name`・`theme` はお好みで変えてOK（一覧は[カスタマイズできる項目](#カスタマイズできる項目)）。
 
-**ステップ3 — README に表示する。**
-プロフィールの `README.md` に、同じパスを指す1行を追加します。
+<details open><summary><b>Windows（PowerShell）</b></summary>
 
-```markdown
-![Commit Pet](commit-pet.svg)
+```powershell
+gh repo clone your-name/your-name
+cd your-name
+New-Item -ItemType Directory -Force -Path .github/workflows | Out-Null
+@'
+name: Commit Pet
+on:
+  schedule:
+    - cron: "0 21 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+  models: read
+jobs:
+  pet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: yukurash/commit-pet@v1
+        with:
+          species: slime          # slime | cat | ghost
+          name: ぷに              # ペットの名前
+          output: commit-pet.svg
+          theme: jp               # en | jp
+'@ | Set-Content .github/workflows/commit-pet.yml -Encoding utf8
+git add .github/workflows/commit-pet.yml
+git commit -m "Add Commit Pet workflow"
+git push
 ```
 
-あとは毎日のスケジュールが、プルリク経由でペットを更新し続けます。
+</details>
 
-## 入力
+<details><summary><b>macOS / Linux（bash）</b></summary>
 
-| 入力 | 既定値 | 説明 |
+```bash
+gh repo clone your-name/your-name
+cd your-name
+mkdir -p .github/workflows
+cat > .github/workflows/commit-pet.yml <<'YAML'
+name: Commit Pet
+on:
+  schedule:
+    - cron: "0 21 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+  models: read
+jobs:
+  pet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: yukurash/commit-pet@v1
+        with:
+          species: slime          # slime | cat | ghost
+          name: ぷに              # ペットの名前
+          output: commit-pet.svg
+          theme: jp               # en | jp
+YAML
+git add .github/workflows/commit-pet.yml
+git commit -m "Add Commit Pet workflow"
+git push
+```
+
+</details>
+
+✅ **OK の合図**: `git push` が成功し、リポジトリの **Actions** タブに **Commit Pet** というワークフローが表示されたら完了です。
+
+### 2. 一度だけ実行する
+
+ワークフローを実行し、完了を待ってから、作られたプルリクをマージします:
+
+```bash
+gh workflow run commit-pet.yml
+gh run watch                                   # 実行が終わるまで待つ
+gh pr list                                     # 「Commit Pet update」PR の番号を確認
+gh pr merge <番号> --squash --delete-branch     # マージ
+```
+
+クリック操作が好みなら: **Actions** タブ → **Commit Pet** → **Run workflow** を押し、**Pull requests** タブから PR をマージします。
+
+✅ **OK の合図**: PR がマージされ、`output` のパス（既定 `commit-pet.svg`）がリポジトリに出来ていれば完了です。
+
+### 3. README に表示する
+
+マージ済みの画像を取り込み、プロフィールの `README.md` に1行追記して push します:
+
+<details open><summary><b>Windows（PowerShell）</b></summary>
+
+```powershell
+git pull
+Add-Content README.md "`n![Commit Pet](commit-pet.svg)"
+git commit -am "Show Commit Pet on my profile"
+git push
+```
+
+</details>
+
+<details><summary><b>macOS / Linux（bash）</b></summary>
+
+```bash
+git pull
+printf '\n![Commit Pet](commit-pet.svg)\n' >> README.md
+git commit -am "Show Commit Pet on my profile"
+git push
+```
+
+</details>
+
+✅ **OK の合図**: `https://github.com/your-name` を開いてプロフィール最下部にペットが出ていれば完了。あとは毎日のスケジュールが、プルリク経由でペットを更新し続けます。
+
+## カスタマイズできる項目
+
+ワークフローの `with:`（ステップ1）に書く設定です:
+
+| 項目 | 既定値 | 役割 |
 |---|---|---|
-| `species` | `slime` | `slime` \| `cat` \| `ghost`。 |
+| `species` | `slime` | キャラを選ぶ: `slime` \| `cat` \| `ghost`。 |
 | `name` | — | カードに表示する名前。 |
+| `theme` | `en` | カードの言語: `en` \| `jp`。日本語表記は `jp`。 |
 | `output` | `commit-pet.svg` | SVG の出力先。README でも同じパスを指定します。 |
-| `theme` | `en` | `en` \| `jp`。日本語表記にするなら `jp`。 |
 | `username` | リポジトリ所有者 | コントリビューションを読むユーザー。 |
 | `pr_branch` | `commit-pet/update` | 更新PRに使うブランチ名。 |
 | `auto_merge` | `false` | `true` で自動マージ（リポジトリの自動マージ有効が前提）。 |
