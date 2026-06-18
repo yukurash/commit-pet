@@ -24,7 +24,7 @@ const MOOD_LABEL = {
   jp: { happy: 'ごきげん', content: 'まあまあ', hungry: 'おなかすいた', sick: 'びょうき' },
   en: { happy: 'Happy', content: 'Okay', hungry: 'Hungry', sick: 'Sick' },
 };
-const MOOD_ICON = { happy: '✨', content: '🙂', hungry: '👀', sick: '🤒' };
+const MOOD_ICON = { happy: '✨', content: '🙂', hungry: '🍙', sick: '🤒' };
 
 function computeStats(calendar, override) {
   let total = 0;

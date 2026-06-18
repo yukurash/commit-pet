@@ -1,0 +1,26 @@
+# Copy this file to:  .github/workflows/commit-pet.yml
+# in your profile repository (the repo named exactly like your username).
+
+name: Commit Pet
+
+on:
+  schedule:
+    - cron: '0 21 * * *'   # runs once a day
+  workflow_dispatch:        # lets you run it manually from the Actions tab
+
+permissions:
+  contents: write           # commit the updated image
+  pull-requests: write      # open the update PR
+  models: read              # optional: AI-written pet diary
+
+jobs:
+  pet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: yukurash/commit-pet@v1
+        with:
+          species: slime         # slime | cat | ghost
+          name: Puni             # your pet's name
+          output: commit-pet.svg # file written to your repo
+          theme: en              # en | jp
