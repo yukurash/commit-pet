@@ -1,0 +1,91 @@
+name: 'Commit Pet'
+description: 'Render a pixel pet for your GitHub profile README and open a PR with the update.'
+author: 'yukurash'
+branding:
+  icon: 'heart'
+  color: 'green'
+
+inputs:
+  username:
+    description: 'GitHub username to read contributions from.'
+    required: false
+    default: ${{ github.repository_owner }}
+  species:
+    description: 'Pet species: slime | cat | ghost.'
+    required: false
+    default: 'slime'
+  name:
+    description: "Pet name shown on the card."
+    required: false
+    default: ''
+  output:
+    description: 'Path of the SVG file to write (committed to your repo).'
+    required: false
+    default: 'commit-pet.svg'
+  theme:
+    description: 'Card language/theme: jp | en.'
+    required: false
+    default: 'jp'
+  token:
+    description: 'Token with contents:write, pull-requests:write and models:read.'
+    required: false
+    default: ${{ github.token }}
+  pr_branch:
+    description: 'Branch name used for the update PR.'
+    required: false
+    default: 'commit-pet/update'
+  auto_merge:
+    description: 'Set to "true" to auto-merge the PR (requires repo auto-merge enabled).'
+    required: false
+    default: 'false'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Render pet + diary
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
+      run: |
+        node "${{ github.action_path }}/src/generate.js" \
+          --user "${{ inputs.username }}" \
+          --species "${{ inputs.species }}" \
+          --name "${{ inputs.name }}" \
+          --theme "${{ inputs.theme }}" \
+          --out "${{ inputs.output }}" \
+          --diary "${{ runner.temp }}/commit-pet-diary.txt"
+        {
+          echo "DIARY<<COMMITPET_EOF"
+          cat "${{ runner.temp }}/commit-pet-diary.txt"
+          echo "COMMITPET_EOF"
+        } >> "$GITHUB_ENV"
+
+    - name: Open update PR
+      uses: peter-evans/create-pull-request@v6
+      with:
+        token: ${{ inputs.token }}
+        branch: ${{ inputs.pr_branch }}
+        delete-branch: true
+        add-paths: ${{ inputs.output }}
+        commit-message: 'chore(commit-pet): update pet 🐾'
+        title: '🐾 Commit Pet update'
+        body: |
+          Your Commit Pet says:
+
+          > ${{ env.DIARY }}
+
+          ---
+          Powered by [Commit Pet](https://github.com/yukurash/commit-pet) ★
+
+    - name: Enable auto-merge
+      if: ${{ inputs.auto_merge == 'true' }}
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+      run: |
+        gh pr merge "${{ inputs.pr_branch }}" --auto --squash || echo "auto-merge not enabled; skipping."

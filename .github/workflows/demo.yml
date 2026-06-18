@@ -1,0 +1,30 @@
+name: Commit Pet (self demo)
+
+on:
+  schedule:
+    - cron: '17 21 * * *'   # daily ~06:17 JST
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'action.yml'
+
+permissions:
+  contents: write
+  pull-requests: write
+  models: read
+
+jobs:
+  pet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update Commit Pet
+        uses: ./
+        with:
+          username: yukurash
+          species: slime
+          name: Puni
+          output: examples/live-yukurash.svg
+          theme: jp
