@@ -42,6 +42,11 @@ Commit Pet は**あなた自身のリポジトリの GitHub Actions** で動き�
 まず**プロフィールリポジトリ**（ユーザー名と同じ名前のリポジトリ。例: `yukurash/yukurash`）を用意します。
 [作り方はこちら。](https://docs.github.com/ja/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme)
 
+**ステップ0 — Actions に PR 作成を許可する。**
+プロフィールリポジトリの **Settings → Actions → General → Workflow permissions** を開き、
+**「Allow GitHub Actions to create and approve pull requests」** を ON にします。これを有効にしないと、
+実行時に *「GitHub Actions is not permitted to create or approve pull requests.」* で失敗します。
+
 **ステップ1 — ワークフローを置く。**
 [examples/commit-pet.yml](examples/commit-pet.yml) をプロフィールリポジトリの
 `.github/workflows/commit-pet.yml` にコピーし、`species`・`name`・`theme` をお好みで変えます。
