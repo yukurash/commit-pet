@@ -1,5 +1,7 @@
 # 🐾 Commit Pet
 
+**English** | [日本語](README.ja.md)
+
 > A tiny **pixel pet** that lives in your GitHub profile README and grows with your commits.
 > Commit every day to keep it happy — skip a few days and it gets hungry, then sick. 🥲
 
@@ -61,7 +63,7 @@ jobs:
           species: slime     # slime | cat | ghost
           name: Puni
           output: commit-pet.svg
-          theme: jp          # jp | en
+          theme: en          # en | jp
 ```
 
 3. Add the image to your `README.md`:
@@ -80,7 +82,7 @@ jobs:
 | `species` | `slime` | `slime` \| `cat` \| `ghost`. |
 | `name` | — | Name shown on the card. |
 | `output` | `commit-pet.svg` | SVG path committed to your repo. |
-| `theme` | `jp` | `jp` \| `en`. |
+| `theme` | `en` | `en` \| `jp`. |
 | `pr_branch` | `commit-pet/update` | Branch used for the update PR. |
 | `auto_merge` | `false` | `true` to auto-merge (needs repo auto-merge enabled). |
 | `token` | `github.token` | Needs `contents:write`, `pull-requests:write`, `models:read`. |

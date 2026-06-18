@@ -27,4 +27,4 @@ jobs:
           species: slime
           name: Puni
           output: examples/live-yukurash.svg
-          theme: jp
+          theme: en
