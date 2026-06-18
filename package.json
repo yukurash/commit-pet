@@ -1,0 +1,15 @@
+{
+  "name": "commit-pet",
+  "version": "0.1.0",
+  "description": "A pixel pet that lives in your GitHub profile README and grows with your commits.",
+  "type": "commonjs",
+  "bin": { "commit-pet": "src/generate.js" },
+  "scripts": {
+    "demo": "node src/generate.js --demo --species slime --user yukurash --name Puni --out examples/slime.svg",
+    "examples": "node scripts/gen-examples.js"
+  },
+  "keywords": ["github", "readme", "profile", "pixel-art", "svg", "tamagotchi", "github-action"],
+  "author": "yukurash",
+  "license": "MIT",
+  "engines": { "node": ">=18" }
+}

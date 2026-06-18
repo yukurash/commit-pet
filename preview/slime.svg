@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-label="Commit Pet slime">
+  <defs>
+    <radialGradient id="body" cx="42%" cy="34%" r="78%">
+      <stop offset="0%" stop-color="#c8ffd6"/>
+      <stop offset="52%" stop-color="#6ee7a0"/>
+      <stop offset="100%" stop-color="#2bbd76"/>
+    </radialGradient>
+    <radialGradient id="cheek" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff9bb3"/>
+      <stop offset="100%" stop-color="#ff9bb3" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- shadow -->
+  <ellipse cx="120" cy="208" rx="62" ry="13" fill="#000" opacity="0.12">
+    <animate attributeName="rx" values="62;52;62" dur="2.2s" repeatCount="indefinite"
+             calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" keyTimes="0;0.5;1"/>
+    <animate attributeName="opacity" values="0.12;0.07;0.12" dur="2.2s" repeatCount="indefinite"/>
+  </ellipse>
+
+  <!-- bobbing pet -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -8;0 0"
+                      dur="2.2s" repeatCount="indefinite" calcMode="spline"
+                      keySplines="0.4 0 0.6 1;0.4 0 0.6 1" keyTimes="0;0.5;1"/>
+
+    <!-- body -->
+    <path d="M120 52 C170 52 198 96 198 140 C198 184 170 198 120 198
+             C70 198 42 184 42 140 C42 96 70 52 120 52 Z"
+          fill="url(#body)" stroke="#1f9c63" stroke-width="3.5"/>
+
+    <!-- gloss -->
+    <ellipse cx="92" cy="96" rx="27" ry="18" fill="#ffffff" opacity="0.5"/>
+
+    <!-- cheeks -->
+    <circle cx="76" cy="150" r="15" fill="url(#cheek)"/>
+    <circle cx="164" cy="150" r="15" fill="url(#cheek)"/>
+
+    <!-- eyes -->
+    <g fill="#1d3329">
+      <ellipse cx="98" cy="132" rx="9" ry="14">
+        <animate attributeName="ry" values="14;14;14;2;14;14"
+                 keyTimes="0;0.85;0.9;0.93;0.96;1" dur="3.6s" repeatCount="indefinite"/>
+      </ellipse>
+      <ellipse cx="142" cy="132" rx="9" ry="14">
+        <animate attributeName="ry" values="14;14;14;2;14;14"
+                 keyTimes="0;0.85;0.9;0.93;0.96;1" dur="3.6s" repeatCount="indefinite"/>
+      </ellipse>
+    </g>
+    <circle cx="101" cy="127" r="3" fill="#fff"/>
+    <circle cx="145" cy="127" r="3" fill="#fff"/>
+
+    <!-- mouth -->
+    <path d="M111 153 Q120 162 129 153" fill="none" stroke="#1d3329" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- sparkle -->
+    <g transform="translate(174 90)" fill="#fff7ad">
+      <path d="M0 -9 L2.4 -2.4 L9 0 L2.4 2.4 L0 9 L-2.4 2.4 L-9 0 L-2.4 -2.4 Z">
+        <animateTransform attributeName="transform" type="scale" values="0.5;1;0.5" dur="1.8s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.2;1;0.2" dur="1.8s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+</svg>

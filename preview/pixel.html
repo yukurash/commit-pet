@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commit Pet — ドット絵 案くらべ</title>
+<style>
+  body {
+    margin: 0; padding: 40px 20px 80px;
+    font-family: system-ui, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
+    background: #0f1525; color: #e7ecf5; text-align: center;
+  }
+  h1 { margin: 0 0 6px; font-size: 26px; }
+  .sub { color: #9aa6c2; margin: 0 auto 40px; max-width: 600px; line-height: 1.7; }
+  .row { display: flex; flex-wrap: wrap; gap: 32px; justify-content: center; }
+  .card {
+    width: 230px; background: #1a2236; border: 1px solid #2a3550; border-radius: 18px;
+    padding: 24px 16px 20px; box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  }
+  .stage {
+    width: 180px; height: 180px; margin: 0 auto 14px; display: grid; place-items: center;
+    background:
+      linear-gradient(#222c44 1px, transparent 1px) 0 0 / 100% 20px,
+      linear-gradient(90deg, #222c44 1px, transparent 1px) 0 0 / 20px 100%,
+      #141c30;
+    border-radius: 12px;
+  }
+  .stage img { width: 150px; height: 150px; image-rendering: pixelated; }
+  .pname { font-weight: 700; font-size: 17px; margin-bottom: 4px; }
+  .vibe { color: #9aa6c2; font-size: 13px; line-height: 1.6; }
+  .foot { color: #6c7796; font-size: 12px; max-width: 600px; margin: 40px auto 0; line-height: 1.7; }
+  a { color: #7db4ff; }
+</style>
+</head>
+<body>
+  <h1>Commit Pet 🎮 ドット絵 3案</h1>
+  <p class="sub">全部その場でアニメします(ふよふよ＋まばたき)。GitHubのREADMEでもこのまま動きます。<br>
+  この中から看板キャラを選ぶ／組み合わせる、でOK。</p>
+
+  <div class="row">
+    <div class="card">
+      <div class="stage"><img src="pixel-slime.svg" alt="pixel slime"></div>
+      <div class="pname">ぷにドット（スライム）</div>
+      <div class="vibe">万人受け・色変えが映える<br>進化させやすい王道</div>
+    </div>
+    <div class="card">
+      <div class="stage"><img src="pixel-cat.svg" alt="pixel cat"></div>
+      <div class="pname">ニャドット（猫）</div>
+      <div class="vibe">親しみやすさ最強<br>しっぽ・耳で表情が出る</div>
+    </div>
+    <div class="card">
+      <div class="stage"><img src="pixel-ghost.svg" alt="pixel ghost"></div>
+      <div class="pname">おばどっと（おばけ）</div>
+      <div class="vibe">ゆるくて可愛い・作りやすい<br>“放置で成仏”ネタが効く</div>
+    </div>
+  </div>
+
+  <p class="foot">なめらか版(カワイイ・フラット)と比べたい場合 → <a href="index.html">index.html</a> も開いてね。<br>
+  ※ 色は後でユーザー名seedで自動可変。表情(ごきげん/空腹/病気)もこのドット絵にそのまま組み込めます。</p>
+</body>
+</html>
