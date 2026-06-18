@@ -134,18 +134,15 @@ function steam(x, y) {
   );
 }
 
-// floating thought bubble with an onigiri (rice ball) -- the clear "hungry" sign
+// floating thought bubble with a food emoji -- the clear "hungry" sign
 function foodBubble(x, y) {
   return (
     `<g>` +
     `<animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0" dur="2.4s" repeatCount="indefinite"/>` +
-    `<rect x="${x}" y="${y}" width="50" height="44" rx="11" fill="#fffdf6" stroke="#d8d2c2" stroke-width="2"/>` +
-    `<rect x="${x + 16}" y="${y + 8}" width="18" height="6" fill="#f1ede2"/>` +
-    `<rect x="${x + 12}" y="${y + 14}" width="26" height="6" fill="#f6f2e8"/>` +
-    `<rect x="${x + 9}" y="${y + 20}" width="32" height="9" fill="#fbf8ef"/>` +
-    `<rect x="${x + 17}" y="${y + 20}" width="16" height="9" fill="#33401f"/>` +
-    `<rect x="${x - 2}" y="${y + 46}" width="9" height="9" rx="4" fill="#fffdf6" stroke="#d8d2c2" stroke-width="1"/>` +
-    `<rect x="${x - 9}" y="${y + 54}" width="6" height="6" rx="3" fill="#fffdf6"/>` +
+    `<rect x="${x}" y="${y}" width="54" height="50" rx="13" fill="#fffdf6" stroke="#d8d2c2" stroke-width="2"/>` +
+    `<text x="${x + 27}" y="${y + 37}" font-size="32" text-anchor="middle">\uD83C\uDF59</text>` +
+    `<rect x="${x - 2}" y="${y + 52}" width="10" height="10" rx="5" fill="#fffdf6" stroke="#d8d2c2" stroke-width="1"/>` +
+    `<rect x="${x - 10}" y="${y + 60}" width="6" height="6" rx="3" fill="#fffdf6"/>` +
     `</g>`
   );
 }
