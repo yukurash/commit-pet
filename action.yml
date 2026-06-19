@@ -2,8 +2,8 @@ name: 'Commit Pet'
 description: 'Render a pixel pet for your GitHub profile README and open a PR with the update.'
 author: 'yukurash'
 branding:
-  icon: 'heart'
-  color: 'green'
+  icon: 'smile'
+  color: 'yellow'
 
 inputs:
   username:
