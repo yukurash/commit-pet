@@ -2,6 +2,10 @@
 
 **English** | [日本語](README.ja.md)
 
+[![GitHub Marketplace](https://img.shields.io/badge/Marketplace-Commit%20Pet-2ea44f?logo=github)](https://github.com/marketplace/actions/commit-pet)
+[![Release](https://img.shields.io/github/v/release/yukurash/commit-pet?color=2ea44f)](https://github.com/yukurash/commit-pet/releases)
+[![Stars](https://img.shields.io/github/stars/yukurash/commit-pet?style=social)](https://github.com/yukurash/commit-pet/stargazers)
+
 > A pixel pet that lives in your GitHub profile README and grows with your commits.
 > Commit often and it stays happy. Go quiet for a few days and it gets hungry, then sick.
 
