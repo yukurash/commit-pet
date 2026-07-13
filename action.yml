@@ -73,6 +73,8 @@ runs:
         delete-branch: true
         add-paths: ${{ inputs.output }}
         commit-message: 'chore(commit-pet): update pet 🐾'
+        author: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
+        committer: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
         title: '🐾 Commit Pet update'
         body: |
           Your Commit Pet says:
